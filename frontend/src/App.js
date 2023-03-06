@@ -24,7 +24,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
 import Root from "./pages/Root";
 import HomePage from "./pages/Home";
-import EventPage from "./pages/Events";
+import EventPage, { loader as eventsLoader } from "./pages/Events";
 import EventDetailPage from "./pages/EventDetail";
 import EventNewPage from "./pages/EventNew";
 import EventEditPage from "./pages/EventEdit";
@@ -40,19 +40,7 @@ const router = createBrowserRouter([
         path: "events",
         element: <RootEvent />,
         children: [
-          {
-            index: true, element: <EventPage />, loader: async () => {
-              const response = await fetch("http://localhost:8080/events");
-
-              if (!response.ok) {
-                // error.
-              } else {
-                // 가져오는 객체는 events라는 프로퍼티를 가지고 있으며 value는 배열이다. 즉, JSON 형식이다.
-                const resData = await response.json();
-                return resData.events;
-              }
-            }
-          },
+          { index: true, element: <EventPage />, loader: eventsLoader },
           { path: ":eventID", element: <EventDetailPage /> },
           { path: "newEvent", element: <EventNewPage /> },
           { path: ":eventID/edit", element: <EventEditPage /> },
