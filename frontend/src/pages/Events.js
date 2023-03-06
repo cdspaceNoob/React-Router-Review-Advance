@@ -1,24 +1,11 @@
-import { Fragment } from "react";
+import { useLoaderData } from "react-router-dom";
 
-import { NavLink } from "react-router-dom";
+import EventsList from "../components/EventsList";
 
-const DUMMY_EVENTS = [
-  { id: "e1", name: "Event01" },
-  { id: "e2", name: "Event02" },
-  { id: "e3", name: "Event03" },
-];
+const EventsPage = () => {
+  const loadedData = useLoaderData();
 
-const EventPage = () => {
-  return (
-    <Fragment>
-      <h1> Event Page. </h1>
-      {DUMMY_EVENTS.map((event) => (
-        <li key={event.id}>
-          <NavLink to={event.id}>{event.name}</NavLink>
-        </li>
-      ))}
-    </Fragment>
-  );
+  return <EventsList events={loadedData} />;
 };
 
-export default EventPage;
+export default EventsPage;
