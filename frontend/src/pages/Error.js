@@ -10,7 +10,11 @@ const Error = () => {
   let statusText = "";
 
   if (error.status === 500) {
-    message = JSON.parse(error.data).message;
+    // message = JSON.parse(error.data).message;
+    // react-router-dom의 json 메서드를 사용함으로써 다음과 같이 간소화 된다.
+    console.log(error);
+    message = error.data.message;
+    console.log(statusText);
     statusText = error.statusText;
   }
 
