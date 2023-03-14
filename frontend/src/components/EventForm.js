@@ -21,17 +21,17 @@ const EventForm = ({ method, event }) => {
     navigate("..");
   };
 
-  let eventTitle = "";
-  let eventImage = "";
-  let eventDate = "";
-  let eventDiscription = "";
+  // let eventTitle = "";
+  // let eventImage = "";
+  // let eventDate = "";
+  // let eventDiscription = "";
 
-  if (event) {
-    eventTitle = event.title ? event.title : "";
-    eventImage = event.image ? event.image : "";
-    eventDate = event.date ? event.date : "";
-    eventDiscription = event.description ? event.description : "";
-  }
+  // if (event) {
+  //   eventTitle = event.title ? event.title : "";
+  //   eventImage = event.image ? event.image : "";
+  //   eventDate = event.date ? event.date : "";
+  //   eventDiscription = event.description ? event.description : "";
+  // }
 
   return (
     <Form method={method} className={classes.form}>
@@ -49,7 +49,8 @@ const EventForm = ({ method, event }) => {
           type="text"
           name="title"
           required
-          defaultValue={eventTitle}
+          // defaultValue={eventTitle}
+          defaultValue={event?.title ? event.title : null}
         />
       </p>
       <p>
@@ -59,7 +60,8 @@ const EventForm = ({ method, event }) => {
           type="url"
           name="image"
           required
-          defaultValue={eventImage}
+          // defaultValue={eventImage}
+          defaultValue={event?.image ? event.image : null}
         />
       </p>
       <p>
@@ -69,7 +71,8 @@ const EventForm = ({ method, event }) => {
           type="date"
           name="date"
           required
-          defaultValue={eventDate}
+          // defaultValue={eventDate}
+          defaultValue={event?.data ? event.date : null}
         />
       </p>
       <p>
@@ -79,7 +82,8 @@ const EventForm = ({ method, event }) => {
           name="description"
           rows="5"
           required
-          defaultValue={eventDiscription}
+          // defaultValue={eventDiscription}
+          defaultValue={event?.description ? event.description : null}
         />
       </p>
       <div className={classes.actions}>
