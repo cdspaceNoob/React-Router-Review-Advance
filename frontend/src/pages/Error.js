@@ -29,6 +29,7 @@ const Error = () => {
     <PageContent title={title}>
       <p>{message}</p>
       <p>{statusText}</p>
+      <p>status is: {error.status}</p>
     </PageContent>
   );
 };

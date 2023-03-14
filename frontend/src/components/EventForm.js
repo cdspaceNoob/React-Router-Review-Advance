@@ -1,15 +1,27 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Form } from "react-router-dom";
 
 import classes from "./EventForm.module.css";
 
-function EventForm({ method, event }) {
+const EventForm = ({ method, event }) => {
   const navigate = useNavigate();
   function cancelHandler() {
     navigate("..");
   }
 
+  let eventTitle = "";
+  let eventImage = "";
+  let eventDate = "";
+  let eventDiscription = "";
+
+  if (event) {
+    eventTitle = event.title ? event.title : "";
+    eventImage = event.image ? event.image : "";
+    eventDate = event.date ? event.date : "";
+    eventDiscription = event.description ? event.description : "";
+  }
+
   return (
-    <form className={classes.form}>
+    <Form method="post" className={classes.form}>
       <p>
         <label htmlFor="title">Title</label>
         <input
@@ -17,7 +29,7 @@ function EventForm({ method, event }) {
           type="text"
           name="title"
           required
-          defaultValue={event.title ? event.title : null}
+          defaultValue={eventTitle}
         />
       </p>
       <p>
@@ -27,7 +39,7 @@ function EventForm({ method, event }) {
           type="url"
           name="image"
           required
-          defaultValue={event.image ? event.image : null}
+          defaultValue={eventImage}
         />
       </p>
       <p>
@@ -37,7 +49,7 @@ function EventForm({ method, event }) {
           type="date"
           name="date"
           required
-          defaultValue={event.date ? event.date : null}
+          defaultValue={eventDate}
         />
       </p>
       <p>
@@ -47,7 +59,7 @@ function EventForm({ method, event }) {
           name="description"
           rows="5"
           required
-          defaultValue={event.description ? event.description : null}
+          defaultValue={eventDiscription}
         />
       </p>
       <div className={classes.actions}>
@@ -56,8 +68,8 @@ function EventForm({ method, event }) {
         </button>
         <button>Save</button>
       </div>
-    </form>
+    </Form>
   );
-}
+};
 
 export default EventForm;
