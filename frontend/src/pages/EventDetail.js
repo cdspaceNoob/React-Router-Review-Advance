@@ -1,17 +1,38 @@
-import { useRouteLoaderData, json, redirect } from "react-router-dom";
+import { Fragment, Suspense } from "react";
+import {
+  useRouteLoaderData,
+  json,
+  redirect,
+  defer,
+  Await,
+} from "react-router-dom";
 
 import EventItem from "../components/EventItem";
+import EventsList from "../components/EventsList";
+import { loadEvents } from "../pages/Events";
 
 const EventDetailPage = () => {
-  const loadedData = useRouteLoaderData("event-detail");
+  const { event, events } = useRouteLoaderData("event-detail");
 
-  return <EventItem event={loadedData.event} />;
+  return (
+    <Fragment>
+      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+        <Await resolve={event}>
+          {(singleEvent) => <EventItem event={singleEvent} />}
+        </Await>
+      </Suspense>
+      <Suspense fallback={<p style={{ textAlign: "center" }}>Loading...</p>}>
+        <Await resolve={events}>
+          {(events) => <EventsList events={events} />}
+        </Await>
+      </Suspense>
+    </Fragment>
+  );
 };
 
 export default EventDetailPage;
 
-export const loader = async ({ request, params }) => {
-  const id = params.eventID;
+const loadEvent = async (id) => {
   const response = await fetch("http://localhost:8080/events/" + id);
 
   if (!response.ok) {
@@ -20,8 +41,18 @@ export const loader = async ({ request, params }) => {
       { status: 500, statusText: "Request URL invalid" }
     );
   } else {
-    return response;
+    const resultData = await response.json();
+    return resultData.event;
   }
+};
+
+export const loader = async ({ request, params }) => {
+  const id = params.eventID;
+
+  return defer({
+    event: await loadEvent(id),
+    events: loadEvents(),
+  });
 };
 
 export const action = async ({ request, params }) => {
